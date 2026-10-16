@@ -1,0 +1,606 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Aeris Academy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+
+<style>
+:root {
+  --bg: #f4f6fa;
+  --bg2: #eaeff7;
+  --text: #0d1117;
+  --text2: #4a5568;
+  --accent: #1a3a6b;
+  --accent-hover: #2a5298;
+  --border: #d6dde8;
+  --dark: #0d1117;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+#root { min-height: 100%; }
+a { color: inherit; text-decoration: none; }
+
+.w { max-width: 1160px; margin-inline: auto; padding-inline: clamp(16px,4vw,40px); }
+
+/* ── NAV ── */
+.nav { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: env(safe-area-inset-top,0); z-index: 100; }
+.nav-inner { display: flex; align-items: center; gap: 16px; height: 68px; }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: var(--text); white-space: nowrap; }
+.logo-icon { width: 36px; height: 36px; background: var(--dark); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.85rem; font-weight: 900; flex-shrink: 0; letter-spacing: -0.02em; }
+nav ul { list-style: none; display: flex; gap: 4px; align-items: center; margin-left: 24px; }
+nav ul a { font-size: 0.875rem; font-weight: 500; color: var(--text2); padding: 6px 10px; border-radius: 6px; transition: color .15s, background .15s; }
+nav ul a:hover, nav ul a.active { color: var(--text); background: var(--bg2); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600; border-radius: 8px; padding: 9px 20px; cursor: pointer; border: none; transition: all .15s; text-decoration: none; }
+.btn-outline { background: none; border: 1.5px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-platform { background: var(--dark); color: #fff !important; border: none; position: relative; overflow: hidden; }
+.btn-platform::after { content:''; position:absolute; inset:0; background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%); transform:translateX(-100%); transition:transform .4s; }
+.btn-platform:hover::after { transform:translateX(100%); }
+.btn-platform:hover { background: #1e2530; }
+.btn-accent, a.btn-accent, a.btn-accent:visited, a.btn-accent:hover { background: var(--accent); color: #fff !important; text-decoration: none; }
+.btn-accent:hover, a.btn-accent:hover { background: var(--accent-hover); }
+.btn-dark { background: var(--dark); color: #fff; }
+.btn-dark:hover { opacity: .88; }
+.btn-lg { padding: 13px 28px; font-size: 1rem; border-radius: 10px; }
+.ham { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text); }
+.mob-nav { display: none; flex-direction: column; border-bottom: 1px solid var(--border); background: #fff; }
+.mob-nav.open { display: flex; }
+.mob-nav a { padding: 13px clamp(16px,4vw,40px); font-size: 0.95rem; font-weight: 500; color: var(--text2); border-bottom: 1px solid var(--border); }
+.mob-actions { padding: 12px clamp(16px,4vw,40px); display: flex; gap: 8px; }
+
+/* ── HERO ── */
+.hero { padding: clamp(56px,8vw,100px) 0 clamp(48px,7vw,80px); }
+.hero-tag { display: inline-flex; align-items: center; gap: 6px; background: #e8edf8; color: var(--accent); font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 100px; margin-bottom: 20px; letter-spacing: .02em; }
+.hero h1 { font-size: clamp(2.4rem,5vw,4rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px; max-width: 18ch; }
+.hero h1 span { color: var(--accent); }
+.hero-sub { font-size: 1.05rem; color: var(--text2); line-height: 1.7; max-width: 52ch; margin-bottom: 36px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-img { width: 100%; border-radius: 16px; overflow: hidden; background: var(--dark); height: clamp(220px,30vw,400px); display: flex; align-items: center; justify-content: center; }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.chart-svg { width: 90%; }
+
+/* ── LABELS ── */
+.sec-label { font-size: 0.78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.sec-h2 { font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.025em; color: var(--text); }
+.sec-p { font-size: 1rem; color: var(--text2); line-height: 1.75; margin-top: 12px; max-width: 52ch; }
+
+/* ── ACERCA ── */
+.about { padding: clamp(64px,8vw,96px) 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.about-list { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+.about-item { display: flex; gap: 12px; align-items: flex-start; }
+.about-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+.about-item p { font-size: 0.93rem; color: var(--text2); line-height: 1.6; }
+.about-item strong { color: var(--text); font-weight: 600; }
+.about-right { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+.about-right h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
+.fact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fact { border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.fact-n { font-size: 1.6rem; font-weight: 900; color: var(--text); letter-spacing: -0.03em; }
+.fact-l { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+
+/* ── SERVICIOS ── */
+.services { padding: clamp(64px,8vw,96px) 0; }
+.svc-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-top: 40px; }
+.svc-card { border: 1px solid var(--border); border-radius: 16px; padding: 28px; background: #fff; transition: box-shadow .2s, transform .2s; }
+.svc-card:hover { box-shadow: 0 8px 28px rgba(26,58,107,.1); transform: translateY(-2px); }
+.svc-icon { width: 44px; height: 44px; background: #e8edf8; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 16px; color: var(--accent); }
+.svc-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+.svc-card p { font-size: 0.88rem; color: var(--text2); line-height: 1.65; }
+
+/* ── CURSOS ── */
+.courses { padding: clamp(64px,8vw,96px) 0; background: var(--bg2); border-top: 1px solid var(--border); }
+.courses-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+.courses-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.course-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; }
+.course-card:hover { box-shadow: 0 8px 28px rgba(26,58,107,.1); transform: translateY(-3px); }
+.course-thumb { height: 150px; background: var(--dark); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.course-cat { position: absolute; top: 12px; left: 12px; background: var(--accent); color: #fff; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 100px; letter-spacing: .04em; text-transform: uppercase; }
+.thumb-icon { font-size: 2.6rem; opacity: .35; }
+.course-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.course-body h3 { font-size: 0.97rem; font-weight: 700; line-height: 1.3; }
+.course-body p { font-size: 0.82rem; color: var(--text2); line-height: 1.55; flex: 1; }
+.course-footer { padding: 0 18px 18px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.c-price { font-size: 1rem; font-weight: 800; color: var(--text); }
+.c-level { font-size: 0.7rem; color: var(--text2); background: var(--bg2); padding: 3px 8px; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+.c-btn { font-size: 0.8rem; font-weight: 700; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 8px; padding: 6px 14px; cursor: pointer; background: none; transition: all .15s; white-space: nowrap; }
+.c-btn:hover { background: var(--accent); color: #fff; }
+
+/* ── POR QUE ── */
+.why { padding: clamp(64px,8vw,96px) 0; }
+.why-list { display: flex; flex-direction: column; margin-top: 40px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.why-item { display: flex; align-items: flex-start; gap: 16px; padding: 22px 28px; border-bottom: 1px solid var(--border); background: #fff; }
+.why-item:last-child { border-bottom: none; }
+.why-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.why-item strong { font-weight: 700; font-size: 0.95rem; color: var(--text); display: block; margin-bottom: 2px; }
+.why-item span { font-size: 0.87rem; color: var(--text2); line-height: 1.55; }
+
+/* ── CONTACTO ── */
+.contact { padding: clamp(64px,8vw,96px) 0; background: var(--dark); }
+.contact .sec-label { color: #6b9bd4; }
+.contact .sec-h2 { color: #fff; }
+.contact .sec-p { color: rgba(255,255,255,.55); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.wa-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 20px 24px; display: flex; align-items: center; gap: 14px; margin-top: 28px; cursor: pointer; transition: background .18s; text-decoration: none; }
+.wa-card:hover { background: rgba(255,255,255,.1); }
+.wa-icon { width: 44px; height: 44px; background: #25d366; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.wa-text strong { font-size: 0.95rem; font-weight: 700; color: #fff; display: block; }
+.wa-text span { font-size: 0.82rem; color: rgba(255,255,255,.5); }
+.cf { display: flex; flex-direction: column; gap: 14px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg label { font-size: 0.75rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+.fg input, .fg textarea { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 11px 14px; font-family: 'Inter',sans-serif; font-size: 0.9rem; color: #fff; outline: none; resize: none; transition: border-color .18s; }
+.fg input:focus, .fg textarea:focus { border-color: #4a80d4; }
+.fg input::placeholder, .fg textarea::placeholder { color: rgba(255,255,255,.25); }
+.cf-btn { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 13px; font-family: 'Inter',sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background .15s; }
+.cf-btn:hover { background: var(--accent-hover); }
+.cf-ok { color: rgba(255,255,255,.6); font-size: 0.88rem; margin-top: 4px; }
+
+/* ── FOOTER ── */
+footer { background: #0a0d12; border-top: 1px solid #1e2530; padding: clamp(36px,5vw,56px) 0 20px; }
+.footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 36px; }
+.footer-brand { font-weight: 800; font-size: 1.05rem; color: #fff; margin-bottom: 8px; }
+.footer-tagline { font-size: 0.83rem; color: #666; line-height: 1.65; }
+.footer-col h5 { font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase; color: #555; margin-bottom: 14px; font-weight: 600; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col li a { font-size: 0.85rem; color: #666; transition: color .15s; }
+.footer-col li a:hover { color: #fff; }
+.footer-bottom { border-top: 1px solid #1e2530; padding-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer-bottom span { font-size: 0.78rem; color: #444; }
+
+/* ── MODAL ── */
+.overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.6); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modal { background: #fff; width: 100%; max-width: 400px; border-radius: 18px; padding: clamp(24px,4vw,36px); position: relative; box-shadow: 0 24px 64px rgba(0,0,0,.2); }
+.modal-x { position: absolute; top: 14px; right: 14px; background: var(--bg2); border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; color: var(--text2); font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+.modal-x:hover { background: var(--border); }
+.modal-logo { font-weight: 800; font-size: 0.9rem; color: var(--accent); margin-bottom: 18px; letter-spacing: -0.01em; }
+.modal h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.025em; color: var(--text); }
+.modal .msub { font-size: 0.875rem; color: var(--text2); margin: 4px 0 22px; line-height: 1.55; }
+.m-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
+.mt { padding: 9px 4px; margin-right: 20px; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-family: 'Inter',sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--text2); margin-bottom: -2px; transition: color .15s, border-color .15s; }
+.mt.on { color: var(--accent); border-bottom-color: var(--accent); }
+.mf { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.mf label { font-size: 0.75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text2); }
+.mf input { border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 13px; font-family: 'Inter',sans-serif; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color .18s; background: #fff; }
+.mf input:focus { border-color: var(--accent); }
+.mf input::placeholder { color: #bbb; }
+.m-submit { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 12px; font-family: 'Inter',sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; margin-top: 6px; transition: background .15s; }
+.m-submit:hover { background: var(--accent-hover); }
+.m-err { font-size: 0.8rem; color: #c0392b; margin-bottom: 8px; }
+.m-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+.m-divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
+.m-divider span { font-size: 0.78rem; color: #bbb; }
+.m-moodle { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 11px; background: none; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'Inter',sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--text); cursor: pointer; transition: border-color .18s, color .18s; text-decoration: none; }
+.m-moodle:hover { border-color: var(--accent); color: var(--accent); }
+.m-alt { text-align: center; font-size: 0.82rem; color: var(--text2); margin-top: 14px; }
+.m-alt button { background: none; border: none; color: var(--accent); font-weight: 600; cursor: pointer; font-family: inherit; font-size: inherit; }
+.m-done { text-align: center; padding: 8px 0; }
+.m-done .m-check { font-size: 2.2rem; margin-bottom: 10px; }
+.m-done h4 { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+.m-done p { font-size: 0.875rem; color: var(--text2); margin: 6px 0 18px; line-height: 1.55; }
+/* registro info box */
+.reg-info { background: #eef2fb; border: 1px solid #c5d3ef; border-radius: 12px; padding: 18px 20px; margin-top: 4px; }
+.reg-info p { font-size: 0.9rem; color: #2d4a7a; line-height: 1.65; margin-bottom: 16px; }
+.reg-wa { display: flex; align-items: center; gap: 10px; background: #25d366; color: #fff !important; border: none; border-radius: 10px; padding: 12px 16px; font-family: 'Inter',sans-serif; font-size: 0.92rem; font-weight: 700; cursor: pointer; width: 100%; justify-content: center; text-decoration: none; transition: opacity .15s; }
+.reg-wa:hover { opacity: .88; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav ul, .nav-right { display: none; }
+  .ham { display: block; margin-left: auto; }
+  .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .hero-img { display: none; }
+  .courses-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .svc-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .courses-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .cf-row { grid-template-columns: 1fr; }
+  .courses-header { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div id="root"></div>
+
+<script>
+const { useState, useEffect, createElement: h } = React;
+const MOODLE = 'https://plataformavirtual.aeris.edu.do';
+const WA_BASE = 'https://wa.me/18098121365';
+const WA_MSG = encodeURIComponent('Hola, me gustaría obtener información para inscribirme en uno de los cursos de Aeris Academy.');
+const WA = WA_BASE + '?text=' + WA_MSG;
+
+const COURSES = [
+  { id:1, title:'Business Intelligence con Power BI', cat:'Business Intelligence', level:'Intermedio', price:'Consultar', icon:'📊', desc:'Crea dashboards interactivos y reportes ejecutivos con Power BI. Aprende DAX, Power Query y modelado de datos para transformar información en decisiones.', waMsg:'Hola, me gustaría obtener información sobre el curso de Business Intelligence con Power BI de Aeris Academy.' },
+  { id:2, title:'SQL para el Análisis de Datos', cat:'Base de Datos', level:'Básico', price:'Consultar', icon:'🗄️', desc:'Domina el lenguaje SQL desde cero hasta consultas avanzadas. Aprende a extraer, filtrar y analizar datos directamente desde bases de datos reales.', waMsg:'Hola, me gustaría obtener información sobre el curso de SQL para el Análisis de Datos de Aeris Academy.' },
+  { id:3, title:'Excel para el Análisis de Datos', cat:'Analítica', level:'Básico', price:'Consultar', icon:'📈', desc:'Potencia tu uso de Excel con tablas dinámicas, fórmulas avanzadas y Power Query para analizar datos de manera profesional.', waMsg:'Hola, me gustaría obtener información sobre el curso de Excel para el Análisis de Datos de Aeris Academy.' },
+  { id:4, title:'Python para el Análisis de Datos', cat:'Programación', level:'Básico', price:'Consultar', icon:'🐍', desc:'Aprende Python desde cero enfocado en análisis de datos con Pandas, NumPy y visualización con Matplotlib y Seaborn usando datos reales.', waMsg:'Hola, me gustaría obtener información sobre el curso de Python para el Análisis de Datos de Aeris Academy.' },
+];
+
+const SVCS = [
+  { icon:'fa-solid fa-chart-column', t:'Dashboards & Reportería', p:'Diseñamos e implementamos dashboards en Power BI o Tableau que tus equipos usan para tomar decisiones reales.' },
+  { icon:'fa-solid fa-chalkboard-user', t:'Capacitación Empresarial', p:'Planes de formación personalizados para equipos: desde fundamentos de datos hasta analítica avanzada e IA.' },
+  { icon:'fa-solid fa-robot', t:'Automatización con IA', p:'Soluciones de machine learning orientadas a un problema concreto de tu negocio, con resultados medibles.' },
+  { icon:'fa-solid fa-database', t:'Arquitectura de Datos', p:'Diseño de pipelines, migración a la nube y gobernanza de datos para escalar con orden.' },
+];
+
+const WHY = [
+  { t:'Cada curso termina en un proyecto real', d:'Al final de cada programa tienes un entregable funcional que puedes mostrar en tu portafolio profesional.' },
+  { t:'Aprendes con datos reales de la industria', d:'Nuestros datasets provienen de finanzas, retail, salud y manufactura — los mismos sectores donde trabajarás.' },
+  { t:'Acceso vitalicio al material', d:'Una vez inscrito, el contenido, las grabaciones y las actualizaciones del curso son tuyas para siempre.' },
+  { t:'Comunidad activa de practicantes', d:'Forma parte de una red de profesionales de datos en RD y LATAM: foros, retos mensuales y sesiones en vivo.' },
+];
+
+/* ── MODAL ── */
+function Modal({ close }) {
+  const [tab, setTab] = useState('login');
+  const [f, setF] = useState({ email:'', pass:'' });
+  const [err, setErr] = useState('');
+  const [ok, setOk] = useState(false);
+  const upd = k => e => setF(p => ({...p,[k]:e.target.value}));
+
+  function submit(ev) {
+    ev.preventDefault(); setErr('');
+    if (!f.email || !f.pass) { setErr('Completa todos los campos.'); return; }
+    setOk(true);
+  }
+  function switchTab(t) { setTab(t); setErr(''); setF({email:'',pass:''}); setOk(false); }
+
+  return h('div', { className:'overlay', onClick:e=>{ if(e.target.classList.contains('overlay')) close(); } },
+    h('div', { className:'modal' },
+      h('button', { className:'modal-x', onClick:close }, '✕'),
+      h('div', { className:'modal-logo' }, 'Aeris Academy'),
+      ok
+        ? h('div', { className:'m-done' },
+            h('div', { className:'m-check' }, '👋'),
+            h('h4', null, '¡Bienvenido!'),
+            h('p', null, 'Redirigiendo a la plataforma virtual...'),
+            h('a', { href:MOODLE, target:'_blank', className:'btn btn-accent btn-lg', style:{display:'inline-flex'} }, 'Ir a la plataforma →')
+          )
+        : h(React.Fragment, null,
+            h('div', { className:'m-tabs' },
+              h('button', { className:'mt'+(tab==='login'?' on':''), onClick:()=>switchTab('login') }, 'Acceder a la plataforma'),
+              h('button', { className:'mt'+(tab==='register'?' on':''), onClick:()=>switchTab('register') }, 'Registrarse'),
+            ),
+            tab==='login'
+              ? h(React.Fragment, null,
+                  h('h3', null, 'Acceder a la plataforma'),
+                  h('p', { className:'msub' }, 'Ingresa tus credenciales para acceder al aula virtual.'),
+                  h('form', { onSubmit:submit },
+                    h('div',{className:'mf'},
+                      h('label',{htmlFor:'me'},'Correo electrónico'),
+                      h('input',{id:'me',type:'email',placeholder:'correo@ejemplo.com',value:f.email,onChange:upd('email')})
+                    ),
+                    h('div',{className:'mf'},
+                      h('label',{htmlFor:'mp'},'Contraseña'),
+                      h('input',{id:'mp',type:'password',placeholder:'••••••••',value:f.pass,onChange:upd('pass')})
+                    ),
+                    err && h('p',{className:'m-err'},err),
+                    h('button',{type:'submit',className:'m-submit'},'Entrar al aula virtual')
+                  ),
+                  h('div',{className:'m-divider'},h('hr'),h('span',null,'o'),h('hr')),
+                  h('a',{className:'m-moodle',href:MOODLE,target:'_blank',rel:'noopener'},'🎓  Acceder directamente con Moodle')
+                )
+              : h(React.Fragment, null,
+                  h('h3', null, 'Solicitar inscripción'),
+                  h('p', { className:'msub' }, 'El acceso al aula virtual lo crea nuestro equipo de soporte una vez confirmada tu inscripción.'),
+                  h('div', { className:'reg-info' },
+                    h('p', null, '👋 Escríbenos por WhatsApp con tu nombre y el curso de interés. Nuestro equipo te enviará tus credenciales de acceso y te guiará con el proceso de pago.'),
+                    h('a', { className:'reg-wa', href:WA, target:'_blank', rel:'noopener', style:{color:'#fff'} },
+                      h('i',{className:'fa-brands fa-whatsapp',style:{fontSize:'1.15rem'}}),
+                      '  Escribir por WhatsApp'
+                    )
+                  )
+                ),
+            h('p',{className:'m-alt'},
+              tab==='login'?'¿Aún no tienes acceso? ':'¿Ya tienes tus credenciales? ',
+              h('button',{onClick:()=>switchTab(tab==='login'?'register':'login')},tab==='login'?'Solicitar inscripción':'Acceder a la plataforma')
+            )
+          )
+    )
+  );
+}
+
+/* ── REG MODAL ── */
+function RegModal({ close, msg, courseTitle }) {
+  const waLink = WA_BASE + '?text=' + encodeURIComponent(msg);
+  return h('div', { className:'overlay', onClick:e=>{ if(e.target.classList.contains('overlay')) close(); } },
+    h('div', { className:'modal' },
+      h('button', { className:'modal-x', onClick:close }, '✕'),
+      h('div', { className:'modal-logo' }, 'Aeris Academy'),
+      h('h3', null, courseTitle ? 'Información del curso' : 'Solicitar inscripción'),
+      courseTitle && h('p', { style:{fontSize:'0.85rem',fontWeight:'700',color:'var(--accent)',marginBottom:'4px',marginTop:'-4px'} }, courseTitle),
+      h('p', { className:'msub' }, 'Escríbenos por WhatsApp y nuestro equipo te dará todos los detalles: contenido, horarios, precio y proceso de inscripción.'),
+      h('div', { className:'reg-info' },
+        h('p', null, '👋 Te responderemos a la brevedad con toda la información que necesitas para tomar la mejor decisión.'),
+        h('a', { className:'reg-wa', href:waLink, target:'_blank', rel:'noopener', style:{color:'#fff'} },
+          h('i', { className:'fa-brands fa-whatsapp', style:{fontSize:'1.15rem'} }),
+          '  Escribir por WhatsApp'
+        )
+      )
+    )
+  );
+}
+
+/* ── CONTACT FORM ── */
+function ContactForm() {
+  const [f, setF] = useState({name:'',email:'',msg:''});
+  const [sent, setSent] = useState(false);
+  const upd = k => e => setF(p=>({...p,[k]:e.target.value}));
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSent(true);
+  }
+  if (sent) return h('p',{className:'cf-ok'},'✓ Mensaje enviado. Te contactamos pronto.');
+  return h('form',{className:'cf',onSubmit:handleSubmit},
+    h('div',{className:'cf-row'},
+      h('div',{className:'fg'},h('label',null,'Nombre'),h('input',{type:'text',placeholder:'Tu nombre',value:f.name,onChange:upd('name'),required:true})),
+      h('div',{className:'fg'},h('label',null,'Correo'),h('input',{type:'email',placeholder:'correo@ejemplo.com',value:f.email,onChange:upd('email'),required:true}))
+    ),
+    h('div',{className:'fg'},h('label',null,'Mensaje'),h('textarea',{rows:4,placeholder:'¿En qué podemos ayudarte?',value:f.msg,onChange:upd('msg')})),
+    h('button',{type:'submit',className:'cf-btn'},'Enviar mensaje')
+  );
+}
+
+/* ── APP ── */
+function App() {
+  const [modal, setModal] = useState(false);
+  const [regModal, setRegModal] = useState(null); // null | { msg, title }
+  const [menu, setMenu] = useState(false);
+  const [section, setSection] = useState('inicio');
+
+  const open = () => { setModal(true); setMenu(false); };
+  const openReg = (msg, title) => { setRegModal({ msg: msg || WA_MSG, title: title || null }); setMenu(false); };
+
+  useEffect(() => {
+    const ids = ['inicio','acerca','servicios','cursos','contacto'];
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) setSection(e.target.id); });
+    }, { threshold: 0.35 });
+    ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+
+  const links = [['#inicio','Inicio'],['#acerca','Acerca de'],['#servicios','Servicios'],['#cursos','Cursos'],['#contacto','Contacto']];
+
+  const ChartSVG = () => h('svg',{className:'chart-svg',viewBox:'0 0 400 220',fill:'none'},
+    h('rect',{width:'400',height:'220',rx:'12',fill:'#0d1117'}),
+    ...[44,88,132,176].map((y,i)=>h('line',{key:i,x1:'40',y1:String(y),x2:'380',y2:String(y),stroke:'rgba(255,255,255,.06)',strokeWidth:'1'})),
+    ...[{x:60,hh:80},{x:110,hh:120},{x:160,hh:65},{x:210,hh:148},{x:260,hh:105},{x:310,hh:160}].map((b,i)=>
+      h('rect',{key:i,x:String(b.x),y:String(200-b.hh),width:'32',height:String(b.hh),rx:'6',fill:i===5?'#2a5298':'rgba(255,255,255,.12)'})
+    ),
+    h('polyline',{points:'76,120 126,80 176,135 226,52 276,95 326,40',fill:'none',stroke:'#4a80d4',strokeWidth:'2.5',strokeLinejoin:'round'}),
+    h('circle',{cx:'326',cy:'40',r:'5',fill:'#4a80d4'}),
+    h('text',{x:'20',y:'214',fill:'rgba(255,255,255,.2)',fontSize:'9',fontFamily:'Inter,sans-serif'},'Aeris Academy')
+  );
+
+  return h(React.Fragment, null,
+
+    /* NAV */
+    h('nav',{className:'nav'},
+      h('div',{className:'w nav-inner'},
+        h('a',{className:'nav-logo',href:'#inicio'},
+          h('div',{className:'logo-icon'},'A'),
+          'Aeris Academy'
+        ),
+        h('ul',null, links.map(([href,label])=>
+          h('li',{key:href},h('a',{href,className:section===href.slice(1)?'active':''},label))
+        )),
+        h('div',{className:'nav-right'},
+          h('a',{className:'btn btn-platform',href:MOODLE,target:'_blank',rel:'noopener'},'🎓 Acceder al aula virtual'),
+          h('button',{className:'btn btn-accent',onClick:openReg,style:{color:'#fff'}},'Inscribirse')
+        ),
+        h('button',{className:'ham','aria-label':'Menú',onClick:()=>setMenu(m=>!m)},menu?'✕':'☰')
+      )
+    ),
+    h('nav',{className:'mob-nav'+(menu?' open':'')},
+      ...links.map(([href,label])=>h('a',{key:href,href,onClick:()=>setMenu(false)},label)),
+      h('div',{className:'mob-actions'},
+        h('a',{className:'btn btn-platform',href:MOODLE,target:'_blank',rel:'noopener'},'🎓 Acceder al aula virtual'),
+        h('button',{className:'btn btn-accent',onClick:openReg,style:{color:'#fff'}},'Inscribirse')
+      )
+    ),
+
+    /* HERO */
+    h('section',{id:'inicio'},
+      h('div',{className:'w'},
+        h('div',{className:'hero'},
+          h('div',{className:'hero-grid'},
+            h('div',null,
+              h('div',{className:'hero-tag'},'🎓 Aeris Academy · Santo Domingo, RD'),
+              h('h1',null,'Aprende a trabajar con ',h('span',null,'datos'),' como lo hacen los profesionales'),
+              h('p',{className:'hero-sub'},'Formación práctica en analítica, Business Intelligence e IA para personas que quieren aplicar lo que aprenden desde el primer día — sin relleno, sin teoría vacía.'),
+              h('div',{className:'hero-ctas'},
+                h('button',{className:'btn btn-accent btn-lg',onClick:openReg},'Inscribirse'),
+                h('a',{className:'btn btn-outline btn-lg',href:'#cursos'},'Ver cursos')
+              )
+            ),
+            h('div',{className:'hero-img'},h(ChartSVG))
+          )
+        )
+      )
+    ),
+
+    /* ACERCA */
+    h('section',{id:'acerca',className:'about'},
+      h('div',{className:'w'},
+        h('div',{className:'about-grid'},
+          h('div',null,
+            h('p',{className:'sec-label'},'Acerca de'),
+            h('h2',{className:'sec-h2'},'Nació en RD para profesionales que trabajan con datos todos los días'),
+            h('div',{className:'about-list'},
+              [
+                ['Sin prerrequisitos complicados','Diseñamos los programas para que puedas empezar desde cero o desde un nivel intermedio, según lo que necesitas.'],
+                ['Instructores con experiencia de campo','No enseñamos desde libros. Cada instructor trabaja activamente con datos en empresas reales.'],
+                ['Plataforma virtual accesible 24/7','Estudia a tu ritmo. Todo el contenido, ejercicios y foros están disponibles desde cualquier dispositivo.'],
+                ['Certificado con código de verificación','Al terminar recibes un certificado digital verificable que puedes compartir en LinkedIn o con empleadores.'],
+              ].map(([t,d])=>
+                h('div',{key:t,className:'about-item'},
+                  h('div',{className:'about-dot'}),
+                  h('p',null,h('strong',null,t+'. '),d)
+                )
+              )
+            )
+          ),
+          h('div',{className:'about-right'},
+            h('h3',null,'¿Por qué Aeris Academy?'),
+            h('div',{className:'fact-grid'},
+              [['2021','Año de fundación'],['RD + LATAM','Cobertura'],['B2B + B2C','Modalidades'],['Moodle LMS','Plataforma']].map(([n,l])=>
+                h('div',{key:l,className:'fact'},
+                  h('div',{className:'fact-n'},n),
+                  h('div',{className:'fact-l'},l)
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    /* SERVICIOS */
+    h('section',{id:'servicios',className:'services'},
+      h('div',{className:'w'},
+        h('p',{className:'sec-label'},'Servicios'),
+        h('h2',{className:'sec-h2'},'Datos aplicados. Resultados concretos.'),
+        h('p',{className:'sec-p'},'Más allá de los cursos, ayudamos a empresas y equipos a implementar soluciones de datos que generan impacto real desde el primer entregable.'),
+        h('div',{className:'svc-grid'},
+          SVCS.map(s=>h('div',{key:s.t,className:'svc-card'},
+            h('div',{className:'svc-icon'},h('i',{className:s.icon})),
+            h('h3',null,s.t),
+            h('p',null,s.p)
+          ))
+        )
+      )
+    ),
+
+    /* CURSOS */
+    h('section',{id:'cursos',className:'courses'},
+      h('div',{className:'w'},
+        h('div',{className:'courses-header'},
+          h('div',null,
+            h('p',{className:'sec-label'},'Cursos disponibles'),
+            h('h2',{className:'sec-h2'},'Nuestros programas. Elige el que se ajusta a tu objetivo.')
+          )
+        ),
+        h('div',{className:'courses-grid'},
+          COURSES.map(c=>h('div',{key:c.id,className:'course-card'},
+            h('div',{className:'course-thumb'},
+              h('span',{className:'course-cat'},c.cat),
+              h('span',{className:'thumb-icon'},c.icon)
+            ),
+            h('div',{className:'course-body'},
+              h('h3',null,c.title),
+              h('p',null,c.desc)
+            ),
+            h('div',{className:'course-footer'},
+              h('div',null,
+                h('div',{className:'c-price'},c.price),
+                h('div',{className:'c-level'},c.level)
+              ),
+              h('button',{className:'c-btn',onClick:()=>openReg(c.waMsg, c.title)},'Ver programa')
+            )
+          ))
+        )
+      )
+    ),
+
+    /* POR QUE */
+    h('section',{className:'why'},
+      h('div',{className:'w'},
+        h('p',{className:'sec-label'},'Por qué elegirnos'),
+        h('h2',{className:'sec-h2'},'Lo que obtienes al estudiar con nosotros'),
+        h('div',{className:'why-list'},
+          WHY.map(w=>h('div',{key:w.t,className:'why-item'},
+            h('div',{className:'why-dot'}),
+            h('div',null,
+              h('strong',null,w.t),
+              h('span',null,w.d)
+            )
+          ))
+        )
+      )
+    ),
+
+    /* CONTACTO */
+    h('section',{id:'contacto',className:'contact'},
+      h('div',{className:'w'},
+        h('div',{style:{maxWidth:'560px'}},
+          h('p',{className:'sec-label'},'Contacto directo'),
+          h('h2',{className:'sec-h2'},'¿Tienes dudas? Hablemos y te orientamos sin compromiso.'),
+          h('p',{className:'sec-p'},'Si no sabes por dónde empezar o qué programa te conviene, escríbenos. Te respondemos el mismo día.'),
+          h('a',{className:'wa-card',href:WA,target:'_blank',rel:'noopener'},
+            h('div',{className:'wa-icon'},h('i',{className:'fa-brands fa-whatsapp',style:{fontSize:'1.4rem',color:'#fff'}})),
+            h('div',{className:'wa-text'},
+              h('strong',null,'Escríbenos por WhatsApp'),
+              h('span',null,'Atención directa para orientación, inscripciones y empresas.')
+            )
+          )
+        )
+      )
+    ),
+
+    /* FOOTER */
+    h('section',{style:{background:'var(--accent)',padding:'clamp(40px,5vw,56px) 0'}},
+      h('div',{className:'w',style:{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'24px',flexWrap:'wrap'}},
+        h('div',null,
+          h('h2',{style:{color:'#fff',fontSize:'clamp(1.4rem,2.5vw,1.9rem)',fontWeight:'800',letterSpacing:'-0.02em',marginBottom:'6px'}},'¿Ya tienes tu cuenta? Entra directamente al aula.'),
+          h('p',{style:{color:'rgba(255,255,255,.65)',fontSize:'0.95rem'}},'Todo el contenido de tus cursos te espera en la plataforma virtual.')
+        ),
+        h('a',{href:MOODLE,target:'_blank',rel:'noopener',className:'btn btn-lg',style:{background:'#fff',color:'var(--accent)',fontWeight:'800',whiteSpace:'nowrap',flexShrink:'0'}},'Acceder al aula virtual →')
+      )
+    ),
+    h('footer',null,
+      h('div',{className:'w'},
+        h('div',{className:'footer-inner'},
+          h('div',null,
+            h('div',{className:'footer-brand'},'Aeris Academy'),
+            h('p',{className:'footer-tagline'},'Formación en datos para profesionales de habla hispana. Santo Domingo, República Dominicana.')
+          ),
+          h('div',{className:'footer-col'},
+            h('h5',null,'Cursos'),
+            h('ul',null,
+              [['Business Intelligence con Power BI','#cursos'],['SQL para el Análisis de Datos','#cursos'],['Excel para el Análisis de Datos','#cursos'],['Python para el Análisis de Datos','#cursos']].map(([l,h2])=>
+                h('li',{key:l},h('a',{href:h2},l))
+              )
+            )
+          ),
+          h('div',{className:'footer-col'},
+            h('h5',null,'Navegación'),
+            h('ul',null,
+              [['Inicio','#inicio'],['Acerca de','#acerca'],['Servicios','#servicios'],['Contacto','#contacto']].map(([l,h2])=>
+                h('li',{key:l},h('a',{href:h2},l))
+              )
+            )
+          ),
+          h('div',{className:'footer-col'},
+            h('h5',null,'Plataforma'),
+            h('ul',null,
+              [['Aula virtual',MOODLE]].map(([l,h2])=>
+                h('li',{key:l},h('a',{href:h2,target:'_blank',rel:'noopener'},l))
+              )
+            )
+          )
+        ),
+        h('div',{className:'footer-bottom'},
+          h('span',null,'© 2025 Aeris Academy. Santo Domingo, República Dominicana.'),
+          h('a',{className:'btn btn-outline',href:MOODLE,target:'_blank',rel:'noopener',style:{padding:'6px 14px',fontSize:'.78rem',borderColor:'#2a3040',color:'#aaa'}},'Acceder al aula virtual →')
+        )
+      )
+    ),
+
+    modal && h(Modal,{close:()=>setModal(false)}),
+    regModal && h(RegModal,{close:()=>setRegModal(null),msg:regModal.msg,courseTitle:regModal.title})
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+
+</body></html>
