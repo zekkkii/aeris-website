@@ -47,7 +47,7 @@ nav ul a:hover, nav ul a.active { color: var(--text); background: var(--bg2); }
 .btn-dark:hover { opacity: .88; }
 .btn-lg { padding: 13px 28px; font-size: 1rem; border-radius: 10px; }
 .ham { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text); }
-.mob-nav { display: none; flex-direction: column; border-bottom: 1px solid var(--border); background: #fff; }
+.mob-nav { display: none; flex-direction: column; border-bottom: 1px solid var(--border); background: #fff; position: fixed; top: 68px; left: 0; right: 0; z-index: 99; box-shadow: 0 8px 24px rgba(0,0,0,.1); }
 .mob-nav.open { display: flex; }
 .mob-nav a { padding: 13px clamp(16px,4vw,40px); font-size: 0.95rem; font-weight: 500; color: var(--text2); border-bottom: 1px solid var(--border); }
 .mob-actions { padding: 12px clamp(16px,4vw,40px); display: flex; gap: 8px; }
@@ -118,6 +118,7 @@ nav ul a:hover, nav ul a.active { color: var(--text); background: var(--bg2); }
 .why-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 .why-item strong { font-weight: 700; font-size: 0.95rem; color: var(--text); display: block; margin-bottom: 2px; }
 .why-item span { font-size: 0.87rem; color: var(--text2); line-height: 1.55; }
+
 
 /* ── CONTACTO ── */
 .contact { padding: clamp(64px,8vw,96px) 0; background: var(--dark); }
@@ -238,6 +239,7 @@ const WHY = [
   { t:'Comunidad activa de practicantes', d:'Forma parte de una red de profesionales de datos en RD y LATAM: foros, retos mensuales y sesiones en vivo.' },
 ];
 
+
 /* ── MODAL ── */
 function Modal({ close }) {
   const [tab, setTab] = useState('login');
@@ -295,7 +297,8 @@ function Modal({ close }) {
                     h('p', null, '👋 Escríbenos por WhatsApp con tu nombre y el curso de interés. Nuestro equipo te enviará tus credenciales de acceso y te guiará con el proceso de pago.'),
                     h('a', { className:'reg-wa', href:WA, target:'_blank', rel:'noopener', style:{color:'#fff'} },
                       h('i',{className:'fa-brands fa-whatsapp',style:{fontSize:'1.15rem'}}),
-                      '  Escribir por WhatsApp'
+                      '  Escribir por WhatsApp',
+                      h('i',{className:'fa-solid fa-arrow-right',style:{marginLeft:'auto',fontSize:'0.85rem',opacity:'.8'}})
                     )
                   )
                 ),
@@ -322,7 +325,8 @@ function RegModal({ close, msg, courseTitle }) {
         h('p', null, '👋 Te responderemos a la brevedad con toda la información que necesitas para tomar la mejor decisión.'),
         h('a', { className:'reg-wa', href:waLink, target:'_blank', rel:'noopener', style:{color:'#fff'} },
           h('i', { className:'fa-brands fa-whatsapp', style:{fontSize:'1.15rem'} }),
-          '  Escribir por WhatsApp'
+          '  Escribir por WhatsApp',
+          h('i',{className:'fa-solid fa-arrow-right',style:{marginLeft:'auto',fontSize:'0.85rem',opacity:'.8'}})
         )
       )
     )
@@ -394,7 +398,7 @@ function App() {
           h('li',{key:href},h('a',{href,className:section===href.slice(1)?'active':''},label))
         )),
         h('div',{className:'nav-right'},
-          h('a',{className:'btn btn-platform',href:MOODLE,target:'_blank',rel:'noopener'},'🎓 Acceder al aula virtual'),
+          h('a',{className:'btn btn-platform',href:MOODLE,target:'_blank',rel:'noopener'},'Acceder al aula virtual'),
           h('button',{className:'btn btn-accent',onClick:openReg,style:{color:'#fff'}},'Inscribirse')
         ),
         h('button',{className:'ham','aria-label':'Menú',onClick:()=>setMenu(m=>!m)},menu?'✕':'☰')
@@ -403,7 +407,7 @@ function App() {
     h('nav',{className:'mob-nav'+(menu?' open':'')},
       ...links.map(([href,label])=>h('a',{key:href,href,onClick:()=>setMenu(false)},label)),
       h('div',{className:'mob-actions'},
-        h('a',{className:'btn btn-platform',href:MOODLE,target:'_blank',rel:'noopener'},'🎓 Acceder al aula virtual'),
+        h('a',{className:'btn btn-platform',href:MOODLE,target:'_blank',rel:'noopener'},'Acceder al aula virtual'),
         h('button',{className:'btn btn-accent',onClick:openReg,style:{color:'#fff'}},'Inscribirse')
       )
     ),
@@ -414,7 +418,6 @@ function App() {
         h('div',{className:'hero'},
           h('div',{className:'hero-grid'},
             h('div',null,
-              h('div',{className:'hero-tag'},'🎓 Aeris Academy · Santo Domingo, RD'),
               h('h1',null,'Aprende a trabajar con ',h('span',null,'datos'),' como lo hacen los profesionales'),
               h('p',{className:'hero-sub'},'Formación práctica en analítica, Business Intelligence e IA para personas que quieren aplicar lo que aprenden desde el primer día — sin relleno, sin teoría vacía.'),
               h('div',{className:'hero-ctas'},
@@ -452,7 +455,7 @@ function App() {
           h('div',{className:'about-right'},
             h('h3',null,'¿Por qué Aeris Academy?'),
             h('div',{className:'fact-grid'},
-              [['2021','Año de fundación'],['RD + LATAM','Cobertura'],['B2B + B2C','Modalidades'],['Moodle LMS','Plataforma']].map(([n,l])=>
+              [['RD + LATAM','Cobertura'],['B2B + B2C','Modalidades'],['Práctica','Metodología'],['Moodle LMS','Plataforma']].map(([n,l])=>
                 h('div',{key:l,className:'fact'},
                   h('div',{className:'fact-n'},n),
                   h('div',{className:'fact-l'},l)
@@ -538,7 +541,10 @@ function App() {
           h('a',{className:'wa-card',href:WA,target:'_blank',rel:'noopener'},
             h('div',{className:'wa-icon'},h('i',{className:'fa-brands fa-whatsapp',style:{fontSize:'1.4rem',color:'#fff'}})),
             h('div',{className:'wa-text'},
-              h('strong',null,'Escríbenos por WhatsApp'),
+              h('div',{style:{display:'flex',alignItems:'center',gap:'6px'}},
+                h('strong',null,'Escríbenos por WhatsApp — toca aquí'),
+                h('i',{className:'fa-solid fa-arrow-up-right-from-square',style:{fontSize:'0.75rem',opacity:'.7'}})
+              ),
               h('span',null,'Atención directa para orientación, inscripciones y empresas.')
             )
           )
